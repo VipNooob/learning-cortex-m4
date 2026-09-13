@@ -23,6 +23,7 @@ Purpose : Generic application start
 #define CHASING_LIGHTS_DELAY               1000000
 #define COLUMN_LIKE_DELAY                  (CHASING_LIGHTS_DELAY / 4)
 #define SIMULTANEOUS_BLINKING_DELAY        CHASING_LIGHTS_DELAY
+#define MY_BLINK_SEQUENCE_DELAY            CHASING_LIGHTS_DELAY
 
 int main(void) {
   uint32_t i = 0;
@@ -33,7 +34,7 @@ int main(void) {
   RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;
   // Set PD12-PD15 in general purpose output mode
   GPIOD->MODER |= (GPIO_MODER_MODE12_0 | GPIO_MODER_MODE13_0 | GPIO_MODER_MODE14_0 | GPIO_MODER_MODE15_0);
-  
+
   // chasing lights
   // 3 leds * 2 states * 3 times 
   for (i = 0; i < 18; i++){
@@ -60,6 +61,21 @@ int main(void) {
     // Toggle PD12-PD15 pins using XOR operation
     GPIOD->ODR ^= (GPIO_ODR_OD12_Msk | GPIO_ODR_OD13_Msk | GPIO_ODR_OD14_Msk | GPIO_ODR_OD15_Msk);
     for (uint32_t i = 0; i < SIMULTANEOUS_BLINKING_DELAY; i++);
+  }
+
+  // my blink sequence: two LEDs blink, then one LED blinks
+  for (uint8_t i = 0; i < 10; i++){
+    // Toggle PD12-PD13 pins using XOR operation
+    GPIOD->ODR ^= (GPIO_ODR_OD12_Msk | GPIO_ODR_OD13_Msk);
+    for (uint32_t i = 0; i < MY_BLINK_SEQUENCE_DELAY; i++);  
+  }
+  
+  for (uint32_t i = 0; i < MY_BLINK_SEQUENCE_DELAY / 2; i++);
+  
+  for (uint8_t i = 0; i < 10; i++){
+    // Toggle PD12-PD13 pins using XOR operation
+    GPIOD->ODR ^= (GPIO_ODR_OD14_Msk);
+    for (uint32_t i = 0; i < MY_BLINK_SEQUENCE_DELAY; i++);  
   }
 
   while (1) {
