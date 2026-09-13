@@ -1,0 +1,4 @@
+# Ignore output in each project
+**/Output/
+# Ignore SEGGER Embedded Studio session
+*.emSession
