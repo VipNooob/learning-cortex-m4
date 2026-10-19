@@ -49,7 +49,8 @@
       target_reset_script="Reset();" />
     <configuration
       Name="Debug"
-      arm_stm32cubeprogrammer_directory="C:/Users/voron/Desktop/CubeProgrammer/tools" />
+      arm_stm32cubeprogrammer_directory="C:/Users/voron/Desktop/CubeProgrammer/tools"
+      c_user_include_directories=".;$(ProjectDir)/lib/clock;$(ProjectDir)/lib/gpio;$(ProjectDir)/lib/debounce;$(ProjectDir)/lib/i2c;$(ProjectDir)/lib/utils" />
     <folder Name="CMSIS Files">
       <file file_name="STM32F4xx/Device/Include/stm32f4xx.h" />
       <file file_name="STM32F4xx/Device/Source/system_stm32f4xx.c">
@@ -64,11 +65,21 @@
         <file file_name="lib/clock/clock.c" />
         <file file_name="lib/clock/clock.h" />
       </folder>
+      <folder Name="debounce">
+        <file file_name="lib/debounce/debounce_handler.c" />
+        <file file_name="lib/debounce/debounce_handler.h" />
+      </folder>
       <folder Name="gpio">
         <file file_name="lib/gpio/gpio.c" />
         <file file_name="lib/gpio/gpio.h" />
       </folder>
-      <folder Name="i2c" />
+      <folder Name="i2c">
+        <file file_name="lib/i2c/i2c.c" />
+        <file file_name="lib/i2c/i2c.h" />
+      </folder>
+      <folder Name="utils">
+        <file file_name="lib/utils/utils.h" />
+      </folder>
     </folder>
     <folder Name="Script Files">
       <file file_name="STM32F4xx/Scripts/STM32F4xx_Target.js">
