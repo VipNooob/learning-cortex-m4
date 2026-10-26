@@ -7,8 +7,7 @@
 #include "i2c.h"
 
 
-
-#define BUTTON_COOLDOWN_MS 3000
+#define BUTTON_COOLDOWN_MS 2000
 #define AT24C64_DEVICE_ADDRESS 0x50
 #define AT24C64_PAGE_ADDRESS 0x00
 
@@ -17,7 +16,7 @@ volatile uint32_t systick_counter_ms = 0;
 volatile uint32_t delay_counter_ms = 0;
 
 uint32_t last_button_press_ms = 0;
-int8_t pressed_buttons[5]; // It stores the index of the first pressed button, if no button is pressed, index = -1 
+int8_t pressed_buttons[5] = {-1, -1, -1, -1, -1}; // It stores the index of the first pressed button, if no button is pressed, index = -1 
 uint8_t is_pressed = 0;
 int8_t eeprom_rx_buffer[5];
 
@@ -50,7 +49,9 @@ int main(void) {
         .consecutive_samples = 0,
     }
   };
-  
+
+  i2c_init();
+
   // Setup SYSTYCK
   SysTick_Config(168000); 
   
@@ -74,9 +75,9 @@ int main(void) {
       is_pressed = 0; 
     }
 
-    // Как собрал 5 нажатий, надо закинуть их в eeprom
+    // Send blink led sequence to EEPROM  
     i2c_writeBytes(AT24C64_DEVICE_ADDRESS, AT24C64_PAGE_ADDRESS, (uint8_t*)pressed_buttons, ARRAY_SIZE(pressed_buttons));
-    
+    delay_ms(5);
     // Read data from EEPROM and blink led sequence
     i2c_readBytes(AT24C64_DEVICE_ADDRESS, AT24C64_PAGE_ADDRESS, (uint8_t*)eeprom_rx_buffer, ARRAY_SIZE(eeprom_rx_buffer));
 
@@ -100,6 +101,7 @@ int main(void) {
         delay_ms(250);
         }
       }
+      delay_ms(1000);
     } 
   }
 }

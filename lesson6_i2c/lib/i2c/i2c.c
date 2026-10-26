@@ -11,10 +11,11 @@ void i2c_init(void){
   // Switch on clock on specified GPIO
   RCC->AHB1ENR |= (RCC_AHB1ENR_GPIOBEN);
   GPIOB->MODER |= (GPIO_MODER_MODER6_1 | GPIO_MODER_MODER9_1); // alternate function
+  GPIOB->OTYPER |= GPIO_OTYPER_OT6 | GPIO_OTYPER_OT9;
   GPIOB->AFR[0] |= GPIO_AFRL_AFSEL6_2; // PB6 (AF4)
   GPIOB->AFR[1] |= GPIO_AFRH_AFSEL9_2; // PB9 (AF4)
 
-  RCC->AHB1ENR |= RCC_APB1ENR_I2C1EN;
+  RCC->APB1ENR |= RCC_APB1ENR_I2C1EN;
   I2C1->CR2 |= (I2C_CR2_FREQ_4 | I2C_CR2_FREQ_5); // Set peripheral clock frequency equals to APB1 clock frequency (42 MHz)
   I2C1->CCR |= (210 << I2C_CCR_CCR_Pos); // Standard mode, CCR = 210
   I2C1->TRISE |= (43 << I2C_TRISE_TRISE_Pos); // Set T_rise - the time mcu should wait before make sure that SCL is high and start counting until CCR
@@ -30,7 +31,7 @@ void i2c_writeBytes(uint8_t addr, uint16_t reg_addr, uint8_t* array, uint16_t le
   // Wait until Start bit is set (SB=1)
   while ((I2C1->SR1 & I2C_SR1_SB) == 0);
   (void)I2C1->CR1; // Dummy CR1 read in order to clear SB flag 
-  I2C1->DR = (addr << 1) | 1; // Send target address in write mode
+  I2C1->DR = (addr << 1) | 0; // Send target address in write mode
   
   // Wait until Address bit is set (ADDR=1)
   while((I2C1->SR1 & I2C_SR1_ADDR) == 0);
@@ -66,7 +67,7 @@ void i2c_readBytes(uint8_t addr, uint16_t reg_addr, uint8_t* array, uint16_t len
   // Wait until Start bit is set (SB=1)
   while ((I2C1->SR1 & I2C_SR1_SB) == 0);
   (void)I2C1->CR1; // Dummy CR1 read in order to clear SB flag 
-  I2C1->DR = (addr << 1) | 1; // Send target address in write mode
+  I2C1->DR = (addr << 1) | 0; // Send target address in write mode
   
   // Wait until Address bit is set (ADDR=1)
   while((I2C1->SR1 & I2C_SR1_ADDR) == 0);
@@ -87,7 +88,7 @@ void i2c_readBytes(uint8_t addr, uint16_t reg_addr, uint8_t* array, uint16_t len
   // Wait until Start bit is set (SB=1)
   while ((I2C1->SR1 & I2C_SR1_SB) == 0);
   (void)I2C1->CR1; // Dummy CR1 read in order to clear SB flag 
-  I2C1->DR = (addr << 1); // Send target address in read mode
+  I2C1->DR = (addr << 1) | 1; // Send target address in read mode
 
   // Wait until Address bit is set (ADDR=1)
   while((I2C1->SR1 & I2C_SR1_ADDR) == 0);

@@ -49,7 +49,7 @@
       target_reset_script="Reset();" />
     <configuration
       Name="Debug"
-      arm_stm32cubeprogrammer_directory="C:/Users/voron/Desktop/CubeProgrammer/tools"
+      arm_stm32cubeprogrammer_directory="C:/Program Files/CubeProgrammer/tools"
       c_user_include_directories=".;$(ProjectDir)/lib/clock;$(ProjectDir)/lib/gpio;$(ProjectDir)/lib/debounce;$(ProjectDir)/lib/i2c;$(ProjectDir)/lib/utils"
       debug_target_connection="ST-Link" />
     <folder Name="CMSIS Files">
