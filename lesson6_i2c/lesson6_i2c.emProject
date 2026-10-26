@@ -91,7 +91,8 @@
       <file file_name="main.c">
         <configuration
           Name="Debug"
-          c_system_include_directories="$(StudioIncDir:$(StudioDir)/include);$(ProjectDir)/lib/clock;$(ProjectDir)/lib/gpio" />
+          c_system_include_directories="$(StudioIncDir:$(StudioDir)/include)"
+          c_user_include_directories="$(ProjectDir)/lib/clock;$(ProjectDir)/lib/gpio;$(ProjectDir)/lib/i2c;$(ProjectDir)/lib/debounce;$(ProjectDir)/lib/utils" />
       </file>
     </folder>
     <folder Name="System Files">

@@ -21,8 +21,9 @@ typedef struct{
   ButtonState_t last_sampled_state;
   ButtonState_t verified_state;
   
-  uint32_t consecutive_samples; 
+  uint32_t consecutive_samples;
 
 } Button_t;
 
-void process_debounce(Button_t buttons[], uint8_t length);
+int16_t process_debounce(Button_t buttons[], uint8_t length);
+void reset_states(Button_t buttons[], uint8_t length);
