@@ -34,8 +34,8 @@ enum {OFF, ON};
 #define RESET_PIN(GPIO_STRUCT)      ((GPIO_STRUCT).port->BSRR = (1 << ((GPIO_STRUCT).pin + 16)))
 #define TOGGLE_PIN(GPIO_STRUCT)     ((GPIO_STRUCT).port->ODR ^= (1 << (GPIO_STRUCT).pin))
 
-#define GET_OUTPUT_PIN_STATE(GPIO_STRUCT) ((GPIO_STRUCT).port->ODR == (1 << (GPIO_STRUCT).pin))
-#define GET_INPUT_PIN_STATE(GPIO_STRUCT)  ((GPIO_STRUCT).port->IDR == (1 << (GPIO_STRUCT).pin))
+#define GET_OUTPUT_PIN_STATE(GPIO_STRUCT) ((GPIO_STRUCT).port->ODR & (1 << (GPIO_STRUCT).pin))
+#define GET_INPUT_PIN_STATE(GPIO_STRUCT)  ((GPIO_STRUCT).port->IDR & (1 << (GPIO_STRUCT).pin))
 
 #define LED_ON(LED)      SET_PIN(LED)
 #define LED_OFF(LED)     RESET_PIN(LED)

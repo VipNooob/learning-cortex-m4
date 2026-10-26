@@ -7,7 +7,12 @@
 
 void i2c_init(void){
   // Setup GPIO pins
-  // 
+  // PB6 -SCL, PB9 - SDA
+  // Switch on clock on specified GPIO
+  RCC->AHB1ENR |= (RCC_AHB1ENR_GPIOBEN);
+  GPIOB->MODER |= (GPIO_MODER_MODER6_1 | GPIO_MODER_MODER9_1); // alternate function
+  GPIOB->AFR[0] |= GPIO_AFRL_AFSEL6_2; // PB6 (AF4)
+  GPIOB->AFR[1] |= GPIO_AFRH_AFSEL9_2; // PB9 (AF4)
 
   RCC->AHB1ENR |= RCC_APB1ENR_I2C1EN;
   I2C1->CR2 |= (I2C_CR2_FREQ_4 | I2C_CR2_FREQ_5); // Set peripheral clock frequency equals to APB1 clock frequency (42 MHz)

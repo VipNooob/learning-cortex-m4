@@ -8,7 +8,7 @@
 
 
 
-#define BUTTON_COOLDOWN_MS 3000U
+#define BUTTON_COOLDOWN_MS 3000
 #define AT24C64_DEVICE_ADDRESS 0x50
 #define AT24C64_PAGE_ADDRESS 0x00
 
@@ -52,20 +52,13 @@ int main(void) {
   };
   
   // Setup SYSTYCK
-  // By default Systick clock is an external clock = HCLK / 8
-  SysTick_Config(21000); 
+  SysTick_Config(168000); 
   
   while (1){
     // Process 5 button presses
-    for (uint8_t i = 0; i < 5; i++){        
-      // Wait every press for 3 seconds
-      if (systick_counter_ms - last_button_press_ms >= BUTTON_COOLDOWN_MS){
-        last_button_press_ms = systick_counter_ms;
-        reset_states(buttons, ARRAY_SIZE(buttons));
-        is_pressed = 0;
-      }
-      else{
-        if (!is_pressed){
+    for (uint8_t i = 0; i < 5; i++){
+      while (systick_counter_ms - last_button_press_ms <= BUTTON_COOLDOWN_MS){
+        if (is_pressed == 0){
           int16_t first_pressed_button = process_debounce(buttons, ARRAY_SIZE(buttons));
         
           if (first_pressed_button > -1){
@@ -74,7 +67,11 @@ int main(void) {
             is_pressed = 1;
           }
         }
-      }     
+      }
+
+      last_button_press_ms = systick_counter_ms;
+      reset_states(buttons, ARRAY_SIZE(buttons));
+      is_pressed = 0; 
     }
 
     // Как собрал 5 нажатий, надо закинуть их в eeprom

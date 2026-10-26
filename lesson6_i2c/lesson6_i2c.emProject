@@ -50,7 +50,8 @@
     <configuration
       Name="Debug"
       arm_stm32cubeprogrammer_directory="C:/Users/voron/Desktop/CubeProgrammer/tools"
-      c_user_include_directories=".;$(ProjectDir)/lib/clock;$(ProjectDir)/lib/gpio;$(ProjectDir)/lib/debounce;$(ProjectDir)/lib/i2c;$(ProjectDir)/lib/utils" />
+      c_user_include_directories=".;$(ProjectDir)/lib/clock;$(ProjectDir)/lib/gpio;$(ProjectDir)/lib/debounce;$(ProjectDir)/lib/i2c;$(ProjectDir)/lib/utils"
+      debug_target_connection="ST-Link" />
     <folder Name="CMSIS Files">
       <file file_name="STM32F4xx/Device/Include/stm32f4xx.h" />
       <file file_name="STM32F4xx/Device/Source/system_stm32f4xx.c">

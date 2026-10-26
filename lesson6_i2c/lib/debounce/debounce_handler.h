@@ -9,8 +9,8 @@
 
 typedef enum {
 
-  Pressed,
   Released,
+  Pressed,
 
 } ButtonState_t;
 
